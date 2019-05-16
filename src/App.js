@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import AppBar from './components/app-bar/app-bar';
+import axios from 'axios';
+import { Movie } from './components/movie/movie';
+class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			inputError: false,
+			movie: {}
+		};
+	}
+	clearError = () => this.setState({ inputError: false });
+	reset = () => this.setState({ movie: {} });
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	submit = async (title, year = false) => {
+		if (title === '') {
+			this.setState({ inputError: true });
+			return;
+		}
+		let url = `http://www.omdbapi.com/?t=${title}/`;
+		url += year ? `&y=${year}` : ``;
+		url += `&apikey=1b74aef2`;
+		const { data } = await axios.get(url);
+		this.setState({ movie: data });
+	};
+
+	render() {
+		console.log('TCL: App -> render -> this.state', this.state);
+		return (
+			<div className='App'>
+				<AppBar
+					submit={this.submit}
+					error={this.state.inputError}
+					clearError={this.clearError}
+					reset={this.reset}
+				/>
+				{Object.keys(this.state.movie).length > 0 && (
+					<Movie data={this.state.movie} />
+				)}
+			</div>
+		);
+	}
 }
 
 export default App;

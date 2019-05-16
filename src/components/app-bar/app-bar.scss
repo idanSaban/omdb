@@ -1,0 +1,44 @@
+@import "../../common/colors.scss";
+.app-bar {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 50px;
+  padding: 10px;
+  background-color: $dark;
+  justify-content: space-between;
+  .logo {
+    font-size: 200%;
+    padding: 0 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    background-color: $imdbYellow;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+  .inputs {
+    padding: 5px;
+    display: flex;
+    input {
+      outline: none;
+      padding-left: 5px;
+      margin-left: 5px;
+      &.error {
+        box-sizing: border-box;
+        border: 3px solid red;
+      }
+    }
+  }
+  .button {
+    background-color: $imdbYellow;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-left: 10px;
+    &:active {
+      background-color: darken($imdbYellow, 10);
+    }
+  }
+}
